@@ -1,12 +1,13 @@
 # Bookstore Management API
 
-A RESTful API built with Go for managing a bookstore's inventory. This project uses Gorilla Mux for routing and GORM with MySQL for database operations.
+A RESTful API built with Go for managing a bookstore's inventory. This project uses Gorilla Mux for routing, GORM with MySQL for database operations, and Swagger for API documentation.
 
 ## Features
 
 - CRUD operations for books
 - RESTful API endpoints
 - MySQL database integration
+- Swagger API documentation
 - Structured project layout
 
 ## Prerequisites
@@ -14,6 +15,7 @@ A RESTful API built with Go for managing a bookstore's inventory. This project u
 - Go 1.24 or higher
 - MySQL
 - Git
+- swag CLI tool (`go install github.com/swaggo/swag/cmd/swag@latest`)
 
 ## Installation
 
@@ -28,7 +30,12 @@ cd bookstore_management
 go mod download
 ```
 
-3. Configure the database:
+3. Generate Swagger documentation:
+```bash
+swag init --parseDependency --parseInternal -g cmd/main/main.go
+```
+
+4. Configure the database:
    - Create a MySQL database
    - Update the database configuration in `pkg/config/app.go`
 
@@ -41,6 +48,13 @@ mysql.Open("user:password@tcp(localhost:3306)/database?charset=utf8&parseTime=Tr
 ```
 
 Replace `user`, `password`, and `database` with your MySQL credentials.
+
+## API Documentation
+
+The API documentation is available through Swagger UI:
+
+- Swagger UI: `http://localhost:8080/swagger/index.html`
+- API JSON Spec: `http://localhost:8080/swagger/doc.json`
 
 ## API Endpoints
 
@@ -71,6 +85,8 @@ The server will start at `http://localhost:8080`
 │   │   └── app.go
 │   ├── controllers/
 │   │   └── book-controller.go
+│   ├── docs/
+│   │   └── docs.go
 │   ├── models/
 │   │   └── book.go
 │   ├── routes/
@@ -78,6 +94,14 @@ The server will start at `http://localhost:8080`
 │   └── utils/
 │       └── utils.go
 └── README.md
+```
+
+## Development
+
+To regenerate Swagger documentation after API changes:
+
+```bash
+swag init --parseDependency --parseInternal -g cmd/main/main.go
 ```
 
 ## License
